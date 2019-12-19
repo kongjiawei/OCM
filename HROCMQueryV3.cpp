@@ -1270,9 +1270,9 @@ unsigned int htou(const char *s) {
 
 	return result;
 }
-//´´½¨Ò»¸ö»¥³âÁ¿
+//åˆ›å»ºä¸€ä¸ªäº’æ–¥é‡
 HANDLE g_hMutex = NULL;
-//¶¨Òå½ÓÊÜÊı×é
+//å®šä¹‰æ¥å—æ•°ç»„
 typedef struct {
 	int type;
 	int number;
@@ -1308,7 +1308,7 @@ typedef struct {
 	//double power_dbm_100[4];
 	//double osnr_db_100[4];
 }Data;
-//Ïß³Ìº¯Êı
+//çº¿ç¨‹å‡½æ•°
 DWORD WINAPI ThreadProcScan(LPVOID lpParameter)
 {
 	Node*  pThreadData = (Node*)lpParameter;
@@ -1316,7 +1316,7 @@ DWORD WINAPI ThreadProcScan(LPVOID lpParameter)
 	{
 		int i;
 		WaitForSingleObject(g_hMutex, INFINITE);
-		//printf("Thread1ÖÜÆÚ²É¼¯¹âÆ×ĞÅÏ¢\n");
+		//printf("Thread1å‘¨æœŸé‡‡é›†å…‰è°±ä¿¡æ¯\n");
 		/*for (i = 0; i <80; i++)
 		{
 			pThreadData->osnr_db[i] = i;
@@ -1353,7 +1353,7 @@ DWORD WINAPI ThreadProcScan(LPVOID lpParameter)
 				}
 			}
 		}
-		commandITU((int)(191.4 * OCM3_FSCALE + 0.5), (int)(0.1 * OCM3_FSCALE + 0.5), 40);
+		commandITU((int)(191.4 * OCM3_FSCALE + 0.5), (int)(0.1 * OCM3_FSCALE + 0.5), 40); //0.5åº”è¯¥æ²¡æœ‰æ„ä¹‰ï¼Œå‰é¢æœ‰intï¼ŒçœŸè ¢
 		{
 			
 			FinisarHROCM_V3 OCM(theConfigString, theLogFile, theLogBinFile);
@@ -1399,17 +1399,17 @@ int _tmain(int argc, _TCHAR* argv[])
 	   TLV1 *myRecvData = (TLV1*)malloc(sizeof(TLV1));
 	   //Data *myData = (Data*)malloc(sizeof(Data));
 	   Node *myNode = (Node*)malloc(sizeof(Node));
-	  //´´½¨Ò»¸ö»¥³âÁ¿
+	  //åˆ›å»ºä¸€ä¸ªäº’æ–¥é‡
 	   g_hMutex = CreateMutex(NULL, FALSE, NULL);
 
-	   //´´½¨Ò»¸ö×ÓÏß³Ì
+	   //åˆ›å»ºä¸€ä¸ªå­çº¿ç¨‹
 	   HANDLE hThread = CreateThread(NULL, 0, ThreadProcScan, myNode, 0, NULL);
 
-	   //¹Ø±ÕÏß³Ì¾ä±ú
+	   //å…³é—­çº¿ç¨‹å¥æŸ„
 	   CloseHandle(hThread);
 	   Sleep(100);
  
-	 //³õÊ¼»¯WSA
+	 //åˆå§‹åŒ–WSA
 	   WORD sockVersion = MAKEWORD(2, 2);
 	   WSADATA wsaData;
 	   if (WSAStartup(sockVersion, &wsaData) != 0)
@@ -1417,7 +1417,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		   return 0;
 	   }
 
-	   //´´½¨Ì×½Ó×Ö
+	   //åˆ›å»ºå¥—æ¥å­—
 	   SOCKET slisten = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	   if (slisten == INVALID_SOCKET) 
 	   {
@@ -1426,7 +1426,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	   }
 
 
-	   //°ó¶¨IPºÍ¶Ë¿Ú
+	   //ç»‘å®šIPå’Œç«¯å£
 	   sockaddr_in sin;
 	   sin.sin_family = AF_INET;
 
@@ -1438,28 +1438,28 @@ int _tmain(int argc, _TCHAR* argv[])
 		   printf("bind error !");
 	   }
 
-	   //¿ªÊ¼¼àÌı
+	   //å¼€å§‹ç›‘å¬
 	   if (listen(slisten, 5) == SOCKET_ERROR)
 	   {
 		   printf("listen error !");
 		   return 0;
 	   }
 
-	   //È·ÈÏÁ¬½Ó
+	   //ç¡®è®¤è¿æ¥
 	   SOCKET sClient;
 	   sockaddr_in remoteAddr;
 	   int nAddrlen = sizeof(remoteAddr);
-	   printf("µÈ´ıÁ¬½Ó...\n");
+	   printf("ç­‰å¾…è¿æ¥...\n");
 	   sClient = accept(slisten, (SOCKADDR *)&remoteAddr, &nAddrlen);
 	   if (sClient == INVALID_SOCKET)
 	   {
 		   printf("accept error !");
 		   return 0;
 	   }
-	   printf("½ÓÊÜµ½Ò»¸öÁ¬½Ó£º%s \r\n", inet_ntoa(remoteAddr.sin_addr));
+	   printf("æ¥å—åˆ°ä¸€ä¸ªè¿æ¥ï¼š%s \r\n", inet_ntoa(remoteAddr.sin_addr));
 	   while (true)
 	   {
-		   //½ÓÊÜÊı¾İ
+		   //æ¥å—æ•°æ®
 		   int needrecv;
 		   needrecv= sizeof(TLV1);
 		   char *buffer = (char*)malloc(needrecv);
@@ -1478,7 +1478,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		   free(buffer);
 		  // *(buffer + needrecv) = '\0';
 
-		   //¶ÁÈëTLV2
+		   //è¯»å…¥TLV2
 		   int type = myRecvData->type;
 		   int number = myRecvData->number;
 		 
@@ -1545,7 +1545,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		   char *sendbuffer = (char*)malloc(needSend);
 		  
 		   
-		   //¶ÁÈëÊı¾İ
+		   //è¯»å…¥æ•°æ®
 		   std::vector<double>send2Client(channelsum * 2);
 		   int index;
 		
