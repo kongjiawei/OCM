@@ -10,12 +10,12 @@ print("connect int success")
 Flag = '194.1 0.3'
 sock_int.send(Flag.encode())
 data =sock_int.recv(1024)
-#ldata = np.fromstring(data, dtype ='float64')
+#ldata = np.fromstring(data, dtype ='float64') 
 print (data)
 print(type(data))
 Flag = '0'
 sock_int.send(Flag.encode())
-ldata = np.fromstring(data, dtype ='float64')
+ldata = np.fromstring(data, dtype ='float64') #这句话将c 发送的string转化位double
 print('recv data:', ldata)
 time.sleep(10)
 #Flag = '0'
